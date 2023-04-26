@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using proj_andre_turismo_api_EF.Data;
 
@@ -11,9 +12,10 @@ using proj_andre_turismo_api_EF.Data;
 namespace proj_andre_turismo_api_EF.Migrations
 {
     [DbContext(typeof(proj_andre_turismo_api_EFContext))]
-    partial class proj_andre_turismo_api_EFContextModelSnapshot : ModelSnapshot
+    [Migration("20230426031907_Inicial")]
+    partial class Inicial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

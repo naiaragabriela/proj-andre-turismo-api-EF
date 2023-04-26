@@ -15,5 +15,15 @@ namespace proj_andre_turismo_api_EF.Data
         }
 
         public DbSet<proj_andre_turismo_api_EF.Models.City> City { get; set; } = default!;
+
+        public DbSet<proj_andre_turismo_api_EF.Models.Address>? Address { get; set; }
+
+        public DbSet<proj_andre_turismo_api_EF.Models.Customer>? Customer { get; set; }
+
+        public DbSet<proj_andre_turismo_api_EF.Models.Ticket>? Ticket { get; set; }
+
+        public DbSet<proj_andre_turismo_api_EF.Models.Hotel>? Hotel { get; set; }
+
+        public DbSet<proj_andre_turismo_api_EF.Models.Package>? Package { get; set; }
     }
 }
