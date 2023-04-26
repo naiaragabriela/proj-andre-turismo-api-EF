@@ -92,10 +92,12 @@ namespace proj_andre_turismo_api_EF.Controllers
               return Problem("Entity set 'proj_andre_turismo_api_EFContext.Address'  is null.");
           }
 
-            var city = await _context.City.FirstAsync(x => x.Id == address.City.Id);
+            var city = await _context.City.Where(x => x.Id == address.City.Id).FirstOrDefaultAsync();
 
-            address.City = city;
-          
+            if (city != null)
+                address.City = city;
+            else Problem("City is null"); 
+
             _context.Address.Add(address);
             await _context.SaveChangesAsync();
 

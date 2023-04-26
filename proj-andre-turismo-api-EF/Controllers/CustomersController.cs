@@ -25,22 +25,22 @@ namespace proj_andre_turismo_api_EF.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Customer>>> GetCustomer()
         {
-          if (_context.Customer == null)
-          {
-              return NotFound();
-          }
-            return await _context.Customer.Include(customer=>customer.Address).ToListAsync();
+            if (_context.Customer == null)
+            {
+                return NotFound();
+            }
+            return await _context.Customer.Include(customer => customer.Address.City).ToListAsync();
         }
 
         // GET: api/Customers/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Customer>> GetCustomer(int id)
         {
-          if (_context.Customer == null)
-          {
-              return NotFound();
-          }
-            var customer = await _context.Customer.Include(customer=>customer.Address).Where(customer=>customer.Id==id).FirstOrDefaultAsync();
+            if (_context.Customer == null)
+            {
+                return NotFound();
+            }
+            var customer = await _context.Customer.Include(customer => customer.Address).Where(customer => customer.Id == id).FirstOrDefaultAsync();
 
             if (customer == null)
             {
@@ -86,10 +86,19 @@ namespace proj_andre_turismo_api_EF.Controllers
         [HttpPost]
         public async Task<ActionResult<Customer>> PostCustomer(Customer customer)
         {
-          if (_context.Customer == null)
-          {
-              return Problem("Entity set 'proj_andre_turismo_api_EFContext.Customer'  is null.");
-          }
+            if (_context.Customer == null)
+            {
+                return Problem("Entity set 'proj_andre_turismo_api_EFContext.Customer'  is null.");
+            }
+
+            var address = await new AddressesController(_context).GetAddress(customer.Address.Id);
+
+            if (address == null)
+            {
+                return NotFound();
+            }
+                customer.Address = address.Value;
+
             _context.Customer.Add(customer);
             await _context.SaveChangesAsync();
 
