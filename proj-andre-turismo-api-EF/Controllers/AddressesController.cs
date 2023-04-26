@@ -29,7 +29,7 @@ namespace proj_andre_turismo_api_EF.Controllers
           {
               return NotFound();
           }
-            return await _context.Address.ToListAsync();
+            return await _context.Address.Include(address=> address.City).ToListAsync();
         }
 
         // GET: api/Addresses/5
@@ -40,7 +40,8 @@ namespace proj_andre_turismo_api_EF.Controllers
           {
               return NotFound();
           }
-            var address = await _context.Address.FindAsync(id);
+
+            var address = await _context.Address.Include(address => address.City).Where(address => address.Id==id).FirstOrDefaultAsync();
 
             if (address == null)
             {
@@ -90,6 +91,11 @@ namespace proj_andre_turismo_api_EF.Controllers
           {
               return Problem("Entity set 'proj_andre_turismo_api_EFContext.Address'  is null.");
           }
+
+            var city = await _context.City.FirstAsync(x => x.Id == address.City.Id);
+
+            address.City = city;
+          
             _context.Address.Add(address);
             await _context.SaveChangesAsync();
 

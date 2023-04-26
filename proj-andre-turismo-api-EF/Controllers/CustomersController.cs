@@ -29,7 +29,7 @@ namespace proj_andre_turismo_api_EF.Controllers
           {
               return NotFound();
           }
-            return await _context.Customer.ToListAsync();
+            return await _context.Customer.Include(customer=>customer.Address).ToListAsync();
         }
 
         // GET: api/Customers/5
@@ -40,7 +40,7 @@ namespace proj_andre_turismo_api_EF.Controllers
           {
               return NotFound();
           }
-            var customer = await _context.Customer.FindAsync(id);
+            var customer = await _context.Customer.Include(customer=>customer.Address).Where(customer=>customer.Id==id).FirstOrDefaultAsync();
 
             if (customer == null)
             {
